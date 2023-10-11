@@ -1,4 +1,4 @@
 package tech.noetzold.model.enums;
 
-public class ShippingType {
+public enum ShippingType {
 }
