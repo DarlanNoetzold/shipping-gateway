@@ -1,12 +1,12 @@
 package tech.noetzold.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.wildfly.common.annotation.NotNull;
+import tech.noetzold.model.enums.ShippingMethod;
+import tech.noetzold.model.enums.State;
 
 import java.util.UUID;
 
@@ -20,5 +20,24 @@ public class ShippingModel {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID shippingId;
 
-    
+    private String carrierCode;
+
+    @NotNull
+    private ShippingMethod shippingMethod;
+
+    @NotNull
+    private State state;
+
+    @NotNull
+    private String userId;
+
+    @NotNull
+    private String orderId;
+
+    @ManyToOne
+    @JoinColumn(name = "address_model_id")
+    private AddressModel addressModel;
+
+
+
 }
