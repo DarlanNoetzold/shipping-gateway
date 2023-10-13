@@ -38,6 +38,6 @@ public class ShippingModel {
     @JoinColumn(name = "address_model_id")
     private AddressModel addressModel;
 
-
+    private String trackingUrl;
 
 }
