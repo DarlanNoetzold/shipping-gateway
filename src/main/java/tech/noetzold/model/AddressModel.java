@@ -57,4 +57,7 @@ public class AddressModel {
     @NotNull
     private boolean riskArea;
 
+    @NotNull
+    private String userId;
+
 }
