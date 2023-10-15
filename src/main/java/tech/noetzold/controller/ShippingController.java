@@ -21,7 +21,7 @@ public class ShippingController {
     @Inject
     ShippingService addressService;
 
-    @Channel("shippings")
+    @Channel("shippings-out")
     Emitter<ShippingModel> quoteRequestEmitter;
 
     private static final Logger logger = Logger.getLogger(ShippingController.class);
@@ -43,22 +43,23 @@ public class ShippingController {
 
     @POST
     @RolesAllowed("admin")
-    public Response saveShippingModel(ShippingModel addressModel){
+    public Response saveShippingModel(ShippingModel shippingModel){
         try {
-            if (addressModel.getUserId() == null) {
-                logger.error("Error to create Shipping withou userId: " + addressModel.getShippingId());
+            if (shippingModel.getUserId() == null) {
+                logger.error("Error to create Shipping withou userId: " + shippingModel.getShippingId());
                 return Response.status(Response.Status.BAD_REQUEST).build();
             }
-            addressModel.setShippingId(null);
-            quoteRequestEmitter.send(addressModel);
-            logger.info("Create " + addressModel.getShippingId());
-            return Response.status(Response.Status.CREATED).entity(addressModel).build();
+
+            shippingModel.setShippingId(null);
+            quoteRequestEmitter.send(shippingModel);
+            logger.info("Create " + shippingModel.getShippingId());
+            return Response.status(Response.Status.CREATED).entity(shippingModel).build();
         } catch (Exception e) {
-            logger.error("Error to create addressModel: " + addressModel.getShippingId());
+            logger.error("Error to create addressModel: " + shippingModel.getShippingId());
             e.printStackTrace();
         }
-        logger.error("Error to create addressModel: " + addressModel.getShippingId());
-        return Response.status(Response.Status.BAD_REQUEST).entity(addressModel).build();
+        logger.error("Error to create addressModel: " + shippingModel.getShippingId());
+        return Response.status(Response.Status.BAD_REQUEST).entity(shippingModel).build();
     }
 
     @PUT
