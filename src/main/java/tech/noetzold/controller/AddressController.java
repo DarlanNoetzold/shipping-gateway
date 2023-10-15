@@ -20,7 +20,7 @@ public class AddressController {
     @Inject
     AddressService addressService;
 
-    @Channel("addresses")
+    @Channel("addresses-out")
     Emitter<AddressModel> quoteRequestEmitter;
 
     private static final Logger logger = Logger.getLogger(AddressController.class);
