@@ -15,7 +15,7 @@ import tech.noetzold.service.AddressService;
 public class AddressConsumer {
 
     @Inject
-    AddressService shippingService;
+    AddressService addressService;
 
     private static final Logger logger = LoggerFactory.getLogger(AddressConsumer.class);
 
@@ -26,7 +26,7 @@ public class AddressConsumer {
 
         AddressModel incomingAddressModel = incomingAddressModelInJson.mapTo(AddressModel.class);
 
-        shippingService.saveAddressModel(incomingAddressModel);
+        addressService.saveAddressModel(incomingAddressModel);
         logger.info("Create Address " + incomingAddressModel.getAddressId() + ".");
 
         return incomingAddressModel;
