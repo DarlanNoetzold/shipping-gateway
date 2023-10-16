@@ -32,7 +32,7 @@ public class AddressController {
 
         AddressModel addressModel = addressService.findAddressModelById(UUID.fromString(id));
 
-        if(addressModel == null){
+        if(addressModel.getAddressId() == null){
             logger.error("There is no address with userId: " + id);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -70,7 +70,7 @@ public class AddressController {
         }
 
         AddressModel existingAddressModel = addressService.findAddressModelById(UUID.fromString(id));
-        if (existingAddressModel == null) {
+        if (existingAddressModel.getAddressId() == null) {
             logger.warn("Error to update addressModel: " + id);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
