@@ -8,6 +8,7 @@ import jakarta.transaction.Transactional;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 import tech.noetzold.model.AddressModel;
+import tech.noetzold.model.ShippingModel;
 import tech.noetzold.repository.AddressRepository;
 
 import java.util.Optional;
@@ -23,7 +24,7 @@ public class AddressService {
     @CacheResult(cacheName = "address")
     public AddressModel findAddressModelById(UUID id){
         Optional<AddressModel> optionalAddressModel = addressRepository.findByIdOptional(id);
-        return optionalAddressModel.orElse(null);
+        return optionalAddressModel.orElse(new AddressModel());
     }
 
     @Transactional
