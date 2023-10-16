@@ -33,7 +33,7 @@ public class ShippingController {
 
         ShippingModel addressModel = addressService.findShippingModelById(UUID.fromString(id));
 
-        if(addressModel == null){
+        if(addressModel.getShippingId() == null){
             logger.error("There is no address with userId: " + id);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
@@ -72,7 +72,7 @@ public class ShippingController {
         }
 
         ShippingModel existingShippingModel = addressService.findShippingModelById(UUID.fromString(id));
-        if (existingShippingModel == null) {
+        if (existingShippingModel.getShippingId() == null) {
             logger.warn("Error to update addressModel: " + id);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
