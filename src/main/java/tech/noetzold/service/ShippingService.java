@@ -23,7 +23,7 @@ public class ShippingService {
     @CacheResult(cacheName = "shipping")
     public ShippingModel findShippingModelById(UUID id){
         Optional<ShippingModel> optionalShippingModel = shippingRepository.findByIdOptional(id);
-        return optionalShippingModel.orElse(null);
+        return optionalShippingModel.orElse(new ShippingModel());
     }
 
     @Transactional
