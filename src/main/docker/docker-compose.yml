@@ -1,0 +1,60 @@
+version: '3.7'
+services:
+  prometheus:
+    image: prom/prometheus:v2.26.0
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command: --config.file=/etc/prometheus/prometheus.yml
+    networks:
+      - minha-rede
+
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - minha-rede
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:17.0.0
+    container_name: keycloak
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    ports:
+      - "8180:8080"
+    command: start-dev
+    networks:
+      - minha-rede
+
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: spywareAPIquarkus
+    ports:
+      - "5432:5432"
+    networks:
+      - minha-rede
+
+  quarkus_app:
+    image: darlannoetzold/spywareapiquarkus
+    container_name: quarkus_app
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+      - keycloak
+    networks:
+      - minha-rede
+
+networks:
+  minha-rede:
