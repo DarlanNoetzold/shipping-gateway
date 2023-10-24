@@ -11,6 +11,7 @@ import org.jboss.logging.Logger;
 import tech.noetzold.model.AddressModel;
 import tech.noetzold.service.AddressService;
 
+import java.util.List;
 import java.util.UUID;
 
 @Path("/api/shipping/v1/address")
@@ -28,16 +29,30 @@ public class AddressController {
     @GET
     @Path("/{id}")
     @RolesAllowed("admin")
-    public Response getAddressModelByUserId(@PathParam("id") String id){
+    public Response getAddressModelById(@PathParam("id") String id){
 
         AddressModel addressModel = addressService.findAddressModelById(UUID.fromString(id));
 
         if(addressModel.getAddressId() == null){
-            logger.error("There is no address with userId: " + id);
+            logger.error("There is no address with Id: " + id);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
         return Response.ok(addressModel).build();
+    }
+    @GET
+    @Path("/user/{userId}")
+    @RolesAllowed("admin")
+    public Response getAddressModelByUserId(@PathParam("userId") String userId){
+
+        List<AddressModel> addressModels = addressService.findAddressModelByUserId(userId);
+
+        if(addressModels.isEmpty()){
+            logger.error("There is no address with userId: " + userId);
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(addressModels).build();
     }
 
     @POST
