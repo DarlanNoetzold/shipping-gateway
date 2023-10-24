@@ -10,6 +10,7 @@ import jakarta.ws.rs.core.Response;
 import tech.noetzold.model.ShippingModel;
 import tech.noetzold.repository.ShippingRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -63,4 +64,7 @@ public class ShippingService {
         shippingRepository.deleteById(id);
     }
 
+    public List<ShippingModel> findShippingModelByOrderId(String orderId) {
+        return shippingRepository.findByOrderId(orderId);
+    }
 }
