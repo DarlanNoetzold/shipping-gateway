@@ -11,6 +11,7 @@ import tech.noetzold.model.AddressModel;
 import tech.noetzold.model.ShippingModel;
 import tech.noetzold.repository.AddressRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -67,5 +68,9 @@ public class AddressService {
     @CacheInvalidateAll(cacheName = "address")
     public void deleteAddressModelById(UUID id){
         addressRepository.deleteById(id);
+    }
+
+    public List<AddressModel> findAddressModelByUserId(String userId) {
+        return addressRepository.findByUserId(userId);
     }
 }
