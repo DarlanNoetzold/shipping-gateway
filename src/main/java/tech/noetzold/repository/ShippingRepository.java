@@ -4,6 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import tech.noetzold.model.ShippingModel;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,5 +17,9 @@ public class ShippingRepository implements PanacheRepository<ShippingModel> {
 
     public void deleteById(UUID id) {
         delete("shippingId", id);
+    }
+
+    public List<ShippingModel> findByOrderId(String orderId) {
+        return list("orderId", orderId);
     }
 }
