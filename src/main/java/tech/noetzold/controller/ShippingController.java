@@ -11,6 +11,7 @@ import org.jboss.logging.Logger;
 import tech.noetzold.model.ShippingModel;
 import tech.noetzold.service.ShippingService;
 
+import java.util.List;
 import java.util.UUID;
 
 @Path("/api/shipping/v1/shipping")
@@ -19,7 +20,7 @@ import java.util.UUID;
 public class ShippingController {
 
     @Inject
-    ShippingService addressService;
+    ShippingService shippingService;
 
     @Channel("shippings-out")
     Emitter<ShippingModel> quoteRequestEmitter;
@@ -29,16 +30,31 @@ public class ShippingController {
     @GET
     @Path("/{id}")
     @RolesAllowed("admin")
-    public Response getShippingModelByUserId(@PathParam("id") String id){
+    public Response getShippingModelById(@PathParam("id") String id){
 
-        ShippingModel addressModel = addressService.findShippingModelById(UUID.fromString(id));
+        ShippingModel shippingModel = shippingService.findShippingModelById(UUID.fromString(id));
 
-        if(addressModel.getShippingId() == null){
-            logger.error("There is no address with userId: " + id);
+        if(shippingModel.getShippingId() == null){
+            logger.error("There is no shipping with Id: " + id);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.ok(addressModel).build();
+        return Response.ok(shippingModel).build();
+    }
+
+    @GET
+    @Path("/order/{orderId}")
+    @RolesAllowed("admin")
+    public Response getShippingModelByOrderId(@PathParam("orderId") String orderId){
+
+        List<ShippingModel> shippingModel = shippingService.findShippingModelByOrderId(orderId);
+
+        if(shippingModel.isEmpty()){
+            logger.error("There is no shipping with orderId: " + orderId);
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(shippingModel).build();
     }
 
     @POST
@@ -55,10 +71,10 @@ public class ShippingController {
             logger.info("Create " + shippingModel.getShippingId());
             return Response.status(Response.Status.CREATED).entity(shippingModel).build();
         } catch (Exception e) {
-            logger.error("Error to create addressModel: " + shippingModel.getShippingId());
+            logger.error("Error to create shippingModel: " + shippingModel.getShippingId());
             e.printStackTrace();
         }
-        logger.error("Error to create addressModel: " + shippingModel.getShippingId());
+        logger.error("Error to create shippingModel: " + shippingModel.getShippingId());
         return Response.status(Response.Status.BAD_REQUEST).entity(shippingModel).build();
     }
 
@@ -67,17 +83,17 @@ public class ShippingController {
     @RolesAllowed("admin")
     public Response updateShippingModel(@PathParam("id") String id, ShippingModel updatedShippingModel) {
         if (id.isBlank() || updatedShippingModel == null) {
-            logger.warn("Error to update addressModel: " + id);
+            logger.warn("Error to update shippingModel: " + id);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        ShippingModel existingShippingModel = addressService.findShippingModelById(UUID.fromString(id));
+        ShippingModel existingShippingModel = shippingService.findShippingModelById(UUID.fromString(id));
         if (existingShippingModel.getShippingId() == null) {
-            logger.warn("Error to update addressModel: " + id);
+            logger.warn("Error to update shippingModel: " + id);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        addressService.updateShippingModel(updatedShippingModel);
+        shippingService.updateShippingModel(updatedShippingModel);
 
         return Response.ok(updatedShippingModel).build();
     }
@@ -86,12 +102,12 @@ public class ShippingController {
     @RolesAllowed("admin")
     public Response deleteShippingModel(@PathParam("id") String id){
         if (id.isBlank()) {
-            logger.warn("Error to delete addressModel: " + id);
+            logger.warn("Error to delete shippingModel: " + id);
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         UUID uuid = UUID.fromString(id);
 
-        addressService.deleteShippingModelById(uuid);
+        shippingService.deleteShippingModelById(uuid);
 
         return Response.ok().build();
     }
