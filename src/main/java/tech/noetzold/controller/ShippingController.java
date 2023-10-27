@@ -93,12 +93,15 @@ public class ShippingController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
+        updatedShippingModel.setShippingId(existingShippingModel.getShippingId());
+
         shippingService.updateShippingModel(updatedShippingModel);
 
         return Response.ok(updatedShippingModel).build();
     }
 
     @DELETE
+    @Path("/{id}")
     @RolesAllowed("admin")
     public Response deleteShippingModel(@PathParam("id") String id){
         if (id.isBlank()) {
