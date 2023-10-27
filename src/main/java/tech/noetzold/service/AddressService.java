@@ -60,6 +60,7 @@ public class AddressService {
         existingAddressModel.setPostaCode(addressModel.getPostaCode());
         existingAddressModel.setFirstName(addressModel.getFirstName());
         existingAddressModel.setLastName(addressModel.getLastName());
+        existingAddressModel.setUserId(addressModel.getUserId());
 
         addressRepository.persist(existingAddressModel);
     }
