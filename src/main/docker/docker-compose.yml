@@ -45,14 +45,19 @@ services:
     networks:
       - minha-rede
 
-  quarkus_app:
-    image: darlannoetzold/spywareapiquarkus
-    container_name: quarkus_app
+  rabbit:
+    image: rabbitmq:3-management
     ports:
-      - "9000:9000"
-    depends_on:
-      - postgres
-      - keycloak
+      - "5672:5672"
+      - "25676:25676"
+      - "15672:15672"
+    networks:
+      - minha-rede
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
     networks:
       - minha-rede
 
