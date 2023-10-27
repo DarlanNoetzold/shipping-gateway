@@ -90,12 +90,15 @@ public class AddressController {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
+        updatedAddressModel.setAddressId(existingAddressModel.getAddressId());
+
         addressService.updateAddressModel(updatedAddressModel);
 
         return Response.ok(updatedAddressModel).build();
     }
 
     @DELETE
+    @Path("/{id}")
     @RolesAllowed("admin")
     public Response deleteAddressModel(@PathParam("id") String id){
         if (id.isBlank()) {
