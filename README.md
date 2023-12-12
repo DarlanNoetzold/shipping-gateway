@@ -9,7 +9,8 @@
 * PostgreSQL Database;
 * Docker para CI/CD;
 * Keycloak para Authorization e Authetication;
-* Rest Assured e Junit5 para testes de integração.
+* Rest Assured e Junit5 para testes de integração;
+* Docker para implantação.
 
 ## Projeto
 * Este Gateway de Shipping será utilizado para um Ecommerce;
